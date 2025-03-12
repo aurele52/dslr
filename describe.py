@@ -16,6 +16,49 @@ stats = {
 }
 
 
+def au_sort(a):
+    print(a)
+    b = []
+    for i in a:
+        if not math.isnan(i):
+            b.append(i)
+    l = au_count(b)
+    i, j = 0, 1
+    while i < l:
+        while j < l:
+            if b[i] < b[j]:
+                b[i], b[j] = b[j], b[i]
+            j += 1
+        i += 1
+        j = 0
+    print(b)
+    return b
+
+
+def au_75(a):
+    ret = 0
+    for i in a:
+        if not math.isnan(i):
+            ret += i
+    return ret / len(a)
+
+
+def au_50(a):
+    ret = 0
+    for i in a:
+        if not math.isnan(i):
+            ret += i
+    return ret / len(a)
+
+
+def au_25(a):
+    ret = 0
+    for i in a:
+        if not math.isnan(i):
+            ret += i
+    return ret / len(a)
+
+
 def au_mean(a):
     ret = 0
     for i in a:
@@ -61,10 +104,11 @@ def au_count(a):
 def au_std(a):
     N = au_count(a)
     mean = au_mean(a)
+    d2 = 0
     for i in a:
         if not math.isnan(i):
             d2 = abs(i - mean)**2
-    return (d2.sum() / (N)) ** 0.5
+    return (d2 / (N)) ** 0.5
 
 
 columns = []  # Liste des noms des colonnes retenues
@@ -77,13 +121,14 @@ for series_name, series in df.items():
         stats["count"].append(series.count())
 
         if pd.api.types.is_numeric_dtype(series):
+            au_sort(series)
             stats["Mean"].append(au_mean(series))
-            stats["Std"].append(series.std())
-            stats["Min"].append(series.min())
+            stats["Std"].append(au_std(series))
+            stats["Min"].append(au_min(series))
             stats["25%"].append(series.quantile(0.25))
             stats["50%"].append(series.median())
             stats["75%"].append(series.quantile(0.75))
-            stats["Max"].append(series.max())
+            stats["Max"].append(au_max(series))
         else:
             stats["Mean"].append(None)
             stats["Std"].append(None)
