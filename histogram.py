@@ -1,20 +1,24 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
-df = pd.read_csv('./datasets/dataset_test.csv')
+df = pd.read_csv('./datasets/dataset_train.csv')
 
 print(df)
-df = df.drop(columns=["Index", "Hogwarts House", "First Name", "Last Name", "Birthday", "Best Hand"])
+df = df.drop(columns=["Index", "Hogwarts House", "First Name", "Last Name",
+                      "Birthday", "Best Hand"])
 print(df)
-color = ['green', 'blue', 'red', 'cyan', 'magenta', 'yellow', 'black', 'white', 'darkgreen', 'orange', 'blueviolet', 'darkred', 'olive', 'chocolat']
+color = ['green', 'blue', 'red', 'cyan', 'magenta', 'yellow', 'black',
+         'darkgreen', 'orange', 'blueviolet', 'darkred', 'olive', 'chocolate']
 
 
 i = 0
 for series_name, series in df.items():
-    if series_name not in ["Index", "Hogwarts House", "First Name", "Last Name", "Birthday", "Best Hand"]:
-        df[series_name] = (df[series_name] - df[series_name].min()) / (df[series_name].max() - df[series_name].min())
-        plt.hist(df[series_name], bins=30, alpha=0.5, color=color[i], label=str(series_name))
+    if series_name not in ["Index", "Hogwarts House", "First Name",
+                           "Last Name", "Birthday", "Best Hand"]:
+        df[series_name] = (df[series_name] - df[series_name].min()) / \
+            (df[series_name].max() - df[series_name].min())
+        plt.hist(df[series_name], bins=30, alpha=0.5,
+                 color=color[i], label=str(series_name))
         i += 1
 
 print(df)
